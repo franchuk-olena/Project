@@ -1,7 +1,11 @@
+//У цій задачі визначається тип, що дозволяє зберігати число або будь-якого числового типу (double, int, unsigned,...) або рядки «Нескінченість» та
+//«Невизначеність». Реалізовуються арифметичні операції для цього типу які коректно працюють з діленням та іншими операціями для всіх можливих
+//комбінаціях значень та типів. За допомогою variant.
 #include <iostream>
 #include <variant>
 #include <string>
 #include <optional>
+#include <ctime>  // Для вимірювання часу
 
 // Визначаємо тип даних, який може містити різні числові типи або рядки
 using Number = std::variant<int, double, unsigned, std::string>;
@@ -86,6 +90,10 @@ Number performOperation(const Number& a, const Number& b, char operation) {
 }
 
 int main() {
+
+    // Початок вимірювання часу
+    clock_t start_time = clock();
+
     std::cout << "Введіть перше число:\n";
     Number a = readNumber();
 
@@ -101,6 +109,13 @@ int main() {
     std::cout << "Результат: ";
     std::visit(NumberPrinter{}, result);
     std::cout << '\n';
+
+    // Кінець вимірювання часу
+    clock_t end_time = clock();
+
+    // Обчислення часу виконання
+    double time_taken = double(end_time - start_time) / CLOCKS_PER_SEC;
+    printf("Час виконання: %.6f секунд\n", time_taken);
 
     return 0;
 }

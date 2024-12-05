@@ -1,7 +1,14 @@
+//У цій задачі визначається тип, що дозволяє зберігати число або будь-якого числового типу (double, int, unsigned,...) або рядки «Нескінченість» та
+//«Невизначеність». Реалізовуються арифметичні операції для цього типу які коректно працюють з діленням та іншими операціями для всіх можливих
+//комбінаціях значень та типів. За допомогою union.
+
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <time.h>  // Для вимірювання часу
 
+// Оголошення типів значень
 typedef enum {
     TYPE_INT,
     TYPE_DOUBLE,
@@ -9,16 +16,20 @@ typedef enum {
     TYPE_STRING
 } ValueType;
 
+
+// Структура для зберігання різних типів значень
 typedef struct {
     ValueType type;
     union {
-        int i;
-        double d;
-        unsigned u;
-        char str[50];  // Збільшено розмір буфера для кириличних символів
+        int i;  // Для цілого числа
+        double d; // Для дробового числа
+        unsigned u; // Для беззнакового числа
+        char str[50]; // Для рядка (максимум 49 символів)
     } value;
 } Number;
 
+
+// Функція для введення числа з консолі
 Number readNumber() {
     Number num;
     int typeChoice;
@@ -134,6 +145,9 @@ int main() {
     Number a, b, result;
     char operation;
 
+    // Початок вимірювання часу
+    clock_t start_time = clock();
+
     printf("Введіть перше число:\n");
     a = readNumber();
 
@@ -148,6 +162,13 @@ int main() {
     printf("Результат: ");
     printNumber(result);
     printf("\n");
+
+    // Кінець вимірювання часу
+    clock_t end_time = clock();
+
+    // Обчислення часу виконання
+    double time_taken = (double)(end_time - start_time) / CLOCKS_PER_SEC;
+    printf("Час виконання: %.6f секунд\n", time_taken);
 
     return 0;
 }

@@ -1,5 +1,7 @@
+// У цій задачі задаються дані фігур та обчислюється їх площа та периметр. За допомогою union
 #include <stdio.h>
 #include <math.h>
+#include <time.h>  // Для вимірювання часу
 
 typedef union {
     struct { double radius; } circle;
@@ -16,7 +18,7 @@ typedef enum {
     RECTANGLE,
     TRAPEZOID
 } ShapeType;
-
+// обчислення площ
 double area(Shape shape, ShapeType type) {
     switch (type) {
         case CIRCLE:
@@ -35,6 +37,7 @@ double area(Shape shape, ShapeType type) {
     }
 }
 
+// обчисленні периметрів
 double perimeter(Shape shape, ShapeType type) {
     switch (type) {
         case CIRCLE:
@@ -56,6 +59,9 @@ int main() {
     Shape shape;
     ShapeType type;
     int choice;
+
+    // Початок вимірювання часу
+    clock_t start_time = clock();
 
     printf("Виберіть фігуру для обчислення:\n");
     printf("1. Круг\n2. Квадрат\n3. Трикутник\n4. Прямокутник\n5. Трапеція\n");
@@ -95,6 +101,13 @@ int main() {
 
     printf("Площа: %.2f\n", area(shape, type));
     printf("Периметр: %.2f\n", perimeter(shape, type));
+
+    // Кінець вимірювання часу
+    clock_t end_time = clock();
+
+    // Обчислення часу виконання
+    double time_taken = (double)(end_time - start_time) / CLOCKS_PER_SEC;
+    printf("Час виконання: %.6f секунд\n", time_taken);
 
     return 0;
 }

@@ -1,6 +1,9 @@
+// У цій задачі задаються дані фігур та обчислюється їх площа та периметр. За допомогою variant
+
 #include <iostream>
 #include <variant>
 #include <cmath>
+#include <ctime>  // Для вимірювання часу
 
 struct Circle {
     double radius;
@@ -23,7 +26,7 @@ struct Trapezoid {
 };
 
 using Shape = std::variant<Circle, Square, Triangle, Rectangle, Trapezoid>;
-
+// обчислення площ
 struct AreaVisitor {
     double operator()(const Circle& c) const {
         return M_PI * c.radius * c.radius;
@@ -46,7 +49,7 @@ struct AreaVisitor {
         return 0.5 * (t.a + t.b) * t.h;
     }
 };
-
+// обчисленні периметрів
 struct PerimeterVisitor {
     double operator()(const Circle& c) const {
         return 2 * M_PI * c.radius;
@@ -72,6 +75,9 @@ struct PerimeterVisitor {
 int main() {
     int choice;
     Shape shape;
+
+    // Початок вимірювання часу
+    clock_t start_time = clock();
 
     std::cout << "Виберіть фігуру для обчислення:" << std::endl;
     std::cout << "1. Круг" << std::endl;
@@ -130,6 +136,13 @@ int main() {
 
     std::cout << "Площа: " << std::visit(AreaVisitor{}, shape) << std::endl;
     std::cout << "Периметр: " << std::visit(PerimeterVisitor{}, shape) << std::endl;
+
+    // Кінець вимірювання часу
+    clock_t end_time = clock();
+
+    // Обчислення часу виконання
+    double time_taken = double(end_time - start_time) / CLOCKS_PER_SEC;
+    std::cout << "Час виконання: " << time_taken << " секунд" << std::endl;
 
     return 0;
 }
